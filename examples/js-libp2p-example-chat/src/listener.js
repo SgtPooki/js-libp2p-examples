@@ -4,6 +4,7 @@ import { createFromJSON } from '@libp2p/peer-id-factory'
 import { createLibp2p } from './libp2p.js'
 import peerIdListenerJson from './peer-id-listener.js'
 import { stdinToStream, streamToConsole } from './stream.js'
+import { webRTC } from '@libp2p/webrtc'
 
 async function run () {
   // Create a new libp2p node with the given multi-address
@@ -11,8 +12,11 @@ async function run () {
   const nodeListener = await createLibp2p({
     peerId: idListener,
     addresses: {
-      listen: ['/ip4/0.0.0.0/tcp/10333']
-    }
+      listen: ['/ip4/0.0.0.0/tcp/10333', '/webrtc', '/webrtc']
+    },
+    transports: [
+      webRTC()
+    ]
   })
 
   // Log a message when a remote peer connects to us
